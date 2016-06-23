@@ -5,8 +5,8 @@ package com.dgkkatas.planets
  */
 class WeatherControllerTest extends GroovyTestCase {
 
-    void "test Pif planet position of planets for each day"(){
-        assert true;
+    void "test planet alineation position of planets for each day checking sun is inside output triangle"(){
+
     }
 
 }

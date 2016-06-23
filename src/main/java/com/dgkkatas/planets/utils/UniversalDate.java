@@ -12,10 +12,10 @@ public class UniversalDate {
 		this.day = dayPosition;
 	}
 
-	public static UniversalDate buildUniversalDateByDay(int day) {
-		Double relativeFullPosition = (new Double(day/365));
+	public static UniversalDate buildUniversalDateByDay(Integer day) {
+		Double relativeFullPosition = (double)(day.doubleValue()/365);
 		int year = relativeFullPosition.intValue();
-		int dayPosition =(int)Math.floor (relativeFullPosition - year)*365;
+		int dayPosition =Double.valueOf(((double)(relativeFullPosition)-year)*365).intValue();
 		return new UniversalDate(year, dayPosition);
 
 	}

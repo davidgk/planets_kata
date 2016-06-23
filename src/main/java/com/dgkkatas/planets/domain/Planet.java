@@ -2,6 +2,8 @@ package com.dgkkatas.planets.domain;
 
 import com.dgkkatas.planets.Position;
 import com.dgkkatas.planets.utils.Direccion;
+import com.dgkkatas.planets.utils.MathCalculations;
+import com.dgkkatas.planets.utils.PlanetsConstants;
 import com.dgkkatas.planets.utils.UniversalDate;
 
 /**
@@ -16,7 +18,6 @@ public class Planet {
 	public UniversalDate currentDate;
 
 	public Position currentPosition;
-	public Position lastPosition ;
 
 
 	public Planet(Integer velocityGrades, Integer distanceToSun, Direccion direccion, String name){
@@ -24,25 +25,27 @@ public class Planet {
 		this.distance2Sun = distanceToSun;
 		this.direccion = direccion;
 		this.name = name;
-		currentPosition =  Position.buildInitialPosition();
+		currentPosition =  new Position();
 
 	}
 
 	protected  Double getVelocityByRadians(Integer velocity){
-		return  (double) Math.round((velocity * (3.141592/180)) * 1000d)/ 1000d;
+		return MathCalculations.round((double) (velocity * (PlanetsConstants.PI / 180)) ,3);
 	}
 
 	public void calculatePosition(int day) {
 		currentDate= UniversalDate.buildUniversalDateByDay(day);
-		currentPosition.calculateAvance(direccion,velocityRadians);
-		if(currentDate.isInitialTimes()) {
-			if (lastPosition == null) {
-				lastPosition = new Position();
-
-			}
-		}
-
+		calculateAvance(direccion, velocityRadians);
 	}
+
+	public void calculateAvance(Direccion direccion, Double velocityRadians) {
+		if (currentDate.day == 0 ){
+			currentPosition.advancePerDay(0 , direccion, velocityRadians);
+		}else{
+			currentPosition.advancePerDay(currentDate.day, direccion, velocityRadians);
+		}
+	}
+
 
 
 

@@ -4,6 +4,7 @@ import com.dgkkatas.planets.domain.Planet
 import com.dgkkatas.planets.utils.Direccion
 import com.dgkkatas.planets.utils.PlanetsTestBuilders
 import spock.lang.Specification
+import spock.lang.Unroll
 
 /**
  * Created by davidgk on 22/06/16.
@@ -14,6 +15,7 @@ class PlanetPositionTest extends Specification{
     public static String FERENGIS = "Ferengis";
     public static String BETASOIDES = "Betasoide";
 
+    @Unroll("test if planet #planet moves after #day Days check its position")
     void "test if planet moves after x Days check its position in several Days"(){
 
     given:
@@ -23,16 +25,17 @@ class PlanetPositionTest extends Specification{
         planeta.calculatePosition( day);
 
     then:
-        assert planeta.currentPosition.initDay == initDayCurrent
-        assert planeta.currentPosition.avancePerday == avanceCurrent
-        assert planeta.lastPosition.initDay == initDayLast
-        assert planeta.lastPosition.avancePerday == avanceDayLast
+        assert planeta.currentPosition.currentPosition == avanceCurrent
 
     where:
-          planet      |day             | initDayCurrent | avanceCurrent  | initDayLast | avanceDayLast
-          VULCANO     | 0              | 0              | 0.017          | null        | null
-          FERENGIS    | 0              | 0              | -0.087         | null        | null
-          BETASOIDES  | 0              | 0              | 0.052          | null        | null
+          planet      |day              | avanceCurrent
+          VULCANO     | 0               | 0.017
+          VULCANO     | 1               | 0.034
+          FERENGIS    | 0               | 6.196
+          FERENGIS    | 1               | 6.109
+          BETASOIDES  | 0               | 0.052
+          BETASOIDES  | 1               | 0.104
+          VULCANO     | 100             | 1.717
 
     }
 
