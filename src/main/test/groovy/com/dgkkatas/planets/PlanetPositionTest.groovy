@@ -1,6 +1,7 @@
 package com.dgkkatas.planets
 
-import com.dgkkatas.planets.domain.AbstractPlanet
+import com.dgkkatas.planets.domain.Planet
+import com.dgkkatas.planets.utils.Direccion
 import com.dgkkatas.planets.utils.PlanetsTestBuilders
 import spock.lang.Specification
 
@@ -9,23 +10,43 @@ import spock.lang.Specification
  */
 class PlanetPositionTest extends Specification{
 
-    void "test if planet Vulcano moves check its position in several Days"(){
+    public static String VULCANO = "Vulcano";
+    public static String FERENGIS = "Ferengis";
+    public static String BETASOIDES = "Betasoide";
+
+    void "test if planet moves after x Days check its position in several Days"(){
 
     given:
-        AbstractPlanet vulcano = PlanetsTestBuilders.buildVulcano();
+        Planet planeta = createTestPlanet(planet)
 
     when:
-        vulcano.calculatePosition( day);
+        planeta.calculatePosition( day);
 
     then:
-        assert vulcano.position.sinusInitDay == positionSinusInitDay
-        assert vulcano.position.sinusEndDay == positionSinusEndDay
-        assert vulcano.position.cosinusInitDay == postionCosinusInitDay
-        assert vulcano.position.cosinusEndDay == postionCosinusEndDay
+        assert planeta.currentPosition.initDay == initDayCurrent
+        assert planeta.currentPosition.avancePerday == avanceCurrent
+        assert planeta.lastPosition.initDay == initDayLast
+        assert planeta.lastPosition.avancePerday == avanceDayLast
 
     where:
-          day | positionSinusInitDay | positionSinusEndDay  | postionCosinusInitDay | postionCosinusEndDay
-          0   | 1                    | 2                    | 0                     |2
+          planet      |day             | initDayCurrent | avanceCurrent  | initDayLast | avanceDayLast
+          VULCANO     | 0              | 0              | 0.017          | null        | null
+          FERENGIS    | 0              | 0              | -0.087         | null        | null
+          BETASOIDES  | 0              | 0              | 0.052          | null        | null
 
+    }
+
+    public Planet createTestPlanet(planet){
+        switch (planet){
+            case VULCANO:
+              return  PlanetsTestBuilders.buildPlanet(1,500,Direccion.RIGHT,VULCANO)
+            break;
+            case FERENGIS:
+              return  PlanetsTestBuilders.buildPlanet(5,1000,Direccion.LEFT,FERENGIS);
+            break
+            case BETASOIDES:
+              return  PlanetsTestBuilders.buildPlanet(3,2000,Direccion.RIGHT,BETASOIDES);
+            break;
+        }
     }
 }

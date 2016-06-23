@@ -19,4 +19,8 @@ public class UniversalDate {
 		return new UniversalDate(year, dayPosition);
 
 	}
+
+	public boolean isInitialTimes() {
+		return this.day == 0 && this.year == 0;
+	}
 }
